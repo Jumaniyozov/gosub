@@ -8,12 +8,17 @@ import (
 )
 
 func (app *Config) routes() http.Handler {
-	// return nil
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
+	mux.Use(app.SessionLoad)
 
 	mux.Get("/", app.HomePage)
+	mux.Post("/login", app.LoginPage)
+	mux.Get("/logout", app.Logout)
+	mux.Get("/register", app.RegisterPage)
+	mux.Post("/register", app.PostRegisterPage)
+	mux.Get("/activate", app.ActivateAccount)
 
 	return mux
 }
