@@ -1,4 +1,4 @@
-module github.com/jumaniyozov/gocunc
+module github.com/jumaniyozov/gosub
 
 go 1.18
 

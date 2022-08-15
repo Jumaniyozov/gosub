@@ -1,4 +1,4 @@
-BINARY_NAME=myapp
+BINARY_NAME=gosub
 DSN="host=localhost port=5432 user=postgres password=123456qwe dbname=concurrency sslmode=disable timezone=UTC connect_timeout=5"
 REDIS="127.0.0.1:6379"
 
