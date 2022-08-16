@@ -6,6 +6,7 @@ import (
 	"sync"
 
 	"github.com/alexedwards/scs/v2"
+	"github.com/jumaniyozov/gosub/data"
 )
 
 type Config struct {
@@ -14,4 +15,5 @@ type Config struct {
 	InfoLog  *log.Logger
 	ErrorLog *log.Logger
 	Wait     *sync.WaitGroup
+	Models   data.Models
 }
