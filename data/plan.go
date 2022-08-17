@@ -74,7 +74,7 @@ func (p *Plan) GetOne(id int) (*Plan, error) {
 	return &plan, nil
 }
 
-/func (p *Plan) SubscribeUserToPlan(user User, plan Plan) error {
+func (p *Plan) SubscribeUserToPlan(user User, plan Plan) error {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
 	defer cancel()
 
