@@ -1,6 +1,4 @@
-DSN=host=localhost port=5432 user=postgres password=password dbname=concurrency sslmode=disable timezone=UTC connect_timeout=5
 BINARY_NAME=myapp.exe
-REDIS="127.0.0.1:6379"
 
 ## build: builds all binaries
 build:
@@ -9,8 +7,6 @@ build:
 
 run: build
 	@echo Starting...
-	set "DSN=${DSN}"
-	set "REDIS=${REDIS}"
 	start /min cmd /c ${BINARY_NAME} &
 	@echo back end started!
 

@@ -3,10 +3,16 @@ package main
 import (
 	"database/sql"
 	"log"
+	"net/http"
 	"os"
+	"sync"
 	"time"
 
+	"github.com/alexedwards/scs/redisstore"
+	"github.com/alexedwards/scs/v2"
+	"github.com/gomodule/redigo/redis"
 	_ "github.com/jackc/pgx/v5"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 const webPort = "80"
@@ -15,6 +21,23 @@ func main() {
 
 	db := initDB()
 	db.Ping()
+
+	session := initSession()
+
+	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
+	errorLog := log.New(os.Stdout, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+
+	wg := sync.WaitGroup{}
+
+	app := Config{
+		Session:  session,
+		DB:       db,
+		Wait:     &wg,
+		InfoLog:  infoLog,
+		ErrorLog: errorLog,
+	}
+
+	
 }
 
 func initDB() *sql.DB {
@@ -30,7 +53,7 @@ func initDB() *sql.DB {
 func connectToDB() *sql.DB {
 	counts := 0
 
-	dsn := os.Getenv("DSN")
+	dsn := "host=localhost port=5432 user=postgres password=123456qwe dbname=concurrency sslmode=disable timezone=UTC connect_timeout=5"
 
 	for {
 		connection, err := openDB(dsn)
@@ -65,4 +88,26 @@ func openDB(dsn string) (*sql.DB, error) {
 
 	return db, nil
 
+}
+
+func initSession() *scs.SessionManager {
+
+	session := scs.New()
+	session.Store = redisstore.New(initRedis())
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = true
+
+	return session
+}
+
+func initRedis() *redis.Pool {
+	redisPool := &redis.Pool{
+		MaxIdle: 10,
+		Dial: func() (redis.Conn, error) {
+			return redis.Dial("tcp", "127.0.0.1:6379")
+		},
+	}
+	return redisPool
 }
