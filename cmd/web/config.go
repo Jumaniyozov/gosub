@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"github.com/jumaniyozov/gosub/data"
 	"log"
 	"sync"
 
@@ -14,5 +15,5 @@ type Config struct {
 	InfoLog  *log.Logger
 	ErrorLog *log.Logger
 	Wait     *sync.WaitGroup
-	
+	Models   data.Models
 }
