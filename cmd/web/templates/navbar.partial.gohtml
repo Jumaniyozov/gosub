@@ -1,5 +1,4 @@
 {{define "navbar"}}
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -13,7 +12,8 @@
                         <a class="nav-link active" href="/register">Register</a>
                     {{end}}
                     {{if .Authenticated}}
-                        <a class="nav-link active" href="/logout">Logout</a>
+                        <a class="nav-link active" href="/members/plans">Plans</a>
+                        <a class="nav-link active" href="/members/logout">Logout</a>
                     {{else}}
                         <a class="nav-link active" href="/login">Login</a>
                     {{end}}
